@@ -11,6 +11,7 @@ URL:		http://www.sanesecurity.co.uk/download_scripts_linux.htm
 Requires:	rsync
 Requires:	clamav
 Requires:	crondaemon
+Requires:	curl
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
