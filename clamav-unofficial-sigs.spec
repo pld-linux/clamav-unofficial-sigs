@@ -10,7 +10,7 @@ Source0:	http://www.inetmsg.com/pub/%{name}.tar.gz
 URL:		http://www.sanesecurity.co.uk/download_scripts_linux.htm
 Requires:	rsync
 Requires:	clamav
-Requires:	crond
+Requires:	crondaemon
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -33,7 +33,7 @@ MalwarePatrol (www.malware.com.br), i OITC (http://www.oitc.com/winnow/clamsigs)
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8,%{_sysconfdir}/{logrotate.d,cron.d}}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man8,%{_sysconfdir}/{logrotate.d,cron.d},/var/lib/%{name}}
 install clamav-unofficial-sigs.sh clamd-status.sh $RPM_BUILD_ROOT%{_sbindir}
 install clamav-unofficial-sigs.8 $RPM_BUILD_ROOT%{_mandir}/man8/
 install clamav-unofficial-sigs.conf $RPM_BUILD_ROOT%{_sysconfdir}
@@ -41,6 +41,8 @@ install clamav-unofficial-sigs-cron $RPM_BUILD_ROOT%{_sysconfdir}/cron.d/%{name}
 install clamav-unofficial-sigs-logrotate $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/%{name}
 
 sed -e 's@/usr/local/bin/@%{_sbindir}/@g' -e 's@/usr/local/etc/@%{_sysconfdir}/@g' -i $RPM_BUILD_ROOT%{_sysconfdir}/*.d/%{name}
+
+sed -e 's@/usr/unofficial-dbs@/var/lib/%{name}@g' -i $RPM_BUILD_ROOT%{_sysconfdir}/clamav-unofficial-sigs.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -53,3 +55,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/*
 %{_sysconfdir}/*/%{name}
 %{_mandir}/man8/*
+%dir /var/lib/%{name}
