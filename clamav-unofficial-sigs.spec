@@ -40,6 +40,8 @@ install clamav-unofficial-sigs.conf $RPM_BUILD_ROOT%{_sysconfdir}
 install clamav-unofficial-sigs-cron $RPM_BUILD_ROOT%{_sysconfdir}/cron.d/%{name}
 install clamav-unofficial-sigs-logrotate $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/%{name}
 
+sed -e 's@/usr/local/bin/@%{_sbindir}/@g' -e 's@/usr/local/etc/@%{_sysconfdir}/@g' -i $RPM_BUILD_ROOT%{_sysconfdir}/*.d/%{name}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
